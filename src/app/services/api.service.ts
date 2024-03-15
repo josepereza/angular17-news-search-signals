@@ -14,23 +14,27 @@ export class ApiService {
 
   searchQuery = signal<string | null>('general');
 
-  /* public newsall = toSignal(
+  /*  public newsall = toSignal(
     this.http
       .get(
-        `https://newsapi.org/v2/everything?q=${this.searchQuery()}&from=2024-02-10&sortBy=publishedAt&apiKey=a218bb3ebc6c411da9c8d4aead14537d`
-      )
-      .pipe(map((res: any) => res.articles))
-  ); */
-
-  getAll() {
-    this.http
-      .get<News>(
         `https://newsapi.org/v2/everything?q=${this.searchQuery()}&sortBy=publishedAt&apiKey=a218bb3ebc6c411da9c8d4aead14537d`
       )
-      .subscribe((news) => {
-        this.news$.set(news.articles);
-      });
-  }
+      .pipe(map((res: any) => res.articles))
+  );  */
+
+  listFiltered= computed(()=>{
+     const filter=this.searchQuery();
+     
+    this.http
+    .get<News>(
+      `https://newsapi.org/v2/everything?q=${this.searchQuery()}&sortBy=publishedAt&apiKey=a218bb3ebc6c411da9c8d4aead14537d`
+    )
+    .subscribe((news) => {
+      this.news$.set(news.articles);
+    });
+    return this.news$();
+  })
+  
 
   news = this.news$.asReadonly();
 }

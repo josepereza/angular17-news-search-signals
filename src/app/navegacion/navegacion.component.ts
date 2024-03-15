@@ -51,7 +51,7 @@ export class NavegacionComponent {
       subscribe(data=>{
         console.log(data)
         this.service.searchQuery.set(data)
-        this.service.getAll()
+        
         
       })
     }
